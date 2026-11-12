@@ -107,8 +107,8 @@ flowchart TD
 │   └── visualization/    # illuminance and convergence plots
 ├── scripts/run_optimization.py
 ├── results/
-│   ├── apartment_layout.png  # full supplied apartment plan
-│   └── modelled_room.svg     # room and default luminaire layout
+│   ├── apartment_layout.png  # supplied source layout asset
+│   └── paper_figures/        # Figures 1–5 from the paper
 ├── tests/test_core.py
 └── archive/original/     # supplied Python source snapshots
 ```
@@ -152,15 +152,27 @@ The full default run performs roughly 1,000 candidate illuminance simulations pl
 
 ## Visualization
 
-The model diagram below is drawn from `configs/default.json` and shows the seven initial luminaire positions in the 3.9 m × 4.5 m room used by Radiance. The full apartment drawing is included for context; its green-highlighted room is the modeled area. New optimization runs generate a point-sampled lux map and a best-score convergence plot.
+The five figures below are taken from the supplied paper and retain their original figure captions. Figures 3 and 5 include all of their original panels. They document the paper's workflow, apartment case, illuminance assessment, reported objective histories, and layout evolution; they are not newly generated results from this refactored repository.
 
-![Modeled room dimensions and initial seven-luminaire layout](results/modelled_room.svg)
+### Figure 1. Simulated annealing optimization process
 
-*Initial layout from the default configuration. Coordinates are in metres; the calculation task plane is at 0.75 m.*
+<p align="center"><img src="results/paper_figures/figure_1_sa_flowchart.png" alt="Figure 1 from the paper: simulated annealing optimization process" width="700"></p>
 
-![Full supplied apartment plan, with the modeled room highlighted in green](results/apartment_layout.png)
+### Figure 2. Apartment layout
 
-*Full apartment context supplied with the project files; the highlighted room corresponds to the rectangular Radiance model above.*
+<p align="center"><img src="results/paper_figures/figure_2_apartment_layout.png" alt="Figure 2 from the paper: apartment layout" width="700"></p>
+
+### Figure 3. Illuminance data distribution
+
+<p align="center"><img src="results/paper_figures/figure_3_illuminance_distribution.png" alt="Figure 3 from the paper: interpolated and classified illuminance data" width="900"></p>
+
+### Figure 4. Objective function variation during optimization
+
+<p align="center"><img src="results/paper_figures/figure_4_objective_function.png" alt="Figure 4 from the paper: objective function values over five runs" width="800"></p>
+
+### Figure 5. Luminaire layout evolution
+
+<p align="center"><img src="results/paper_figures/figure_5_layout_evolution.png" alt="Figure 5 from the paper: four stages of luminaire layout evolution" width="700"></p>
 
 ## Dependencies
 
