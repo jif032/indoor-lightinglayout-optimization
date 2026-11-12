@@ -53,32 +53,6 @@ $$
 
 The best-so-far layout is retained independently of the current SA state.
 
-```mermaid
-flowchart TD
-    A["Load the room, fixed initial layout, and SA settings"] --> B["Evaluate initial layout; set current and best"]
-    B --> C["Set temperature to 100"]
-    C --> D["Propose one bounded luminaire move"]
-    D --> E["Run Radiance and calculate compliance"]
-    E --> F{"Candidate score at least current score?"}
-    F -->|Yes| G["Accept candidate as current"]
-    F -->|No| H{"Accept worse candidate by Metropolis rule?"}
-    H -->|Yes| G
-    H -->|No| I["Keep current layout"]
-    G --> J{"Candidate improves best score?"}
-    J -->|Yes| K["Save candidate as best"]
-    J -->|No| L["Keep best-so-far layout"]
-    I --> M{"20 proposals completed?"}
-    K --> M
-    L --> M
-    M -->|No| D
-    M -->|Yes| N["Cool temperature by factor 0.6"]
-    N --> O{"Temperature at least 1?"}
-    O -->|Yes| D
-    O -->|No| P{"More independent runs?"}
-    P -->|Yes| B
-    P -->|No| Q["Save best layout, summary, and plots"]
-```
-
 ## Objective Function
 
 `compliance_rate()` returns the inclusive fraction of samples with illuminance from 90 through 200 lux. This score is maximized. A point outside the band is treated as non-compliant whether it is under-lit or over-lit; no separate penalty weights are applied.
@@ -108,7 +82,7 @@ flowchart TD
 ├── scripts/run_optimization.py
 ├── results/
 │   ├── apartment_layout.png  # supplied source layout asset
-│   └── paper_figures/        # Figures 1–5 from the paper
+│   └── paper_figures/        # Selected figures from the paper
 ├── tests/test_core.py
 └── archive/original/     # supplied Python source snapshots
 ```
@@ -152,19 +126,11 @@ The full default run performs roughly 1,000 candidate illuminance simulations pl
 
 ## Visualization
 
-The five figures below are taken from the supplied paper and retain their original figure captions. Figures 3 and 5 include all of their original panels. They document the paper's workflow, apartment case, illuminance assessment, reported objective histories, and layout evolution; they are not newly generated results from this refactored repository.
-
-### Figure 1. Simulated annealing optimization process
-
-<p align="center"><img src="results/paper_figures/figure_1_sa_flowchart.png" alt="Figure 1 from the paper: simulated annealing optimization process" width="700"></p>
+The figures below are taken from the supplied paper and retain their original figure captions. Figure 5 includes all of its original panels. They are not newly generated results from this refactored repository.
 
 ### Figure 2. Apartment layout
 
 <p align="center"><img src="results/paper_figures/figure_2_apartment_layout.png" alt="Figure 2 from the paper: apartment layout" width="700"></p>
-
-### Figure 3. Illuminance data distribution
-
-<p align="center"><img src="results/paper_figures/figure_3_illuminance_distribution.png" alt="Figure 3 from the paper: interpolated and classified illuminance data" width="900"></p>
 
 ### Figure 4. Objective function variation during optimization
 
