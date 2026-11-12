@@ -55,22 +55,28 @@ The best-so-far layout is retained independently of the current SA state.
 
 ```mermaid
 flowchart TD
-    A[Load room, materials, initial layout, and SA settings] --> B[Run Radiance for current layout]
-    B --> C[Compute fraction of samples in 90–200 lux]
-    C --> D[Propose a bounded luminaire shift]
-    D --> E[Run Radiance and evaluate candidate]
-    E --> F{Improves score?}
-    F -- Yes --> G[Accept candidate]
-    F -- No --> H[Accept with exp(delta / T)]
-    G --> I[Update best-so-far layout]
-    H --> I
-    I --> J{20 proposals at this temperature?}
-    J -- No --> D
-    J -- Yes --> K[Multiply temperature by 0.6]
-    K --> L{Temperature >= 1?}
-    L -- Yes --> D
-    L -- No --> M[Repeat for five independent runs]
-    M --> N[Save best layout, summary, and plots]
+    A["Load the room, fixed initial layout, and SA settings"] --> B["Evaluate initial layout; set current and best"]
+    B --> C["Set temperature to 100"]
+    C --> D["Propose one bounded luminaire move"]
+    D --> E["Run Radiance and calculate compliance"]
+    E --> F{"Candidate score at least current score?"}
+    F -->|Yes| G["Accept candidate as current"]
+    F -->|No| H{"Accept worse candidate by Metropolis rule?"}
+    H -->|Yes| G
+    H -->|No| I["Keep current layout"]
+    G --> J{"Candidate improves best score?"}
+    J -->|Yes| K["Save candidate as best"]
+    J -->|No| L["Keep best-so-far layout"]
+    I --> M{"20 proposals completed?"}
+    K --> M
+    L --> M
+    M -->|No| D
+    M -->|Yes| N["Cool temperature by factor 0.6"]
+    N --> O{"Temperature at least 1?"}
+    O -->|Yes| D
+    O -->|No| P{"More independent runs?"}
+    P -->|Yes| B
+    P -->|No| Q["Save best layout, summary, and plots"]
 ```
 
 ## Objective Function
@@ -144,11 +150,15 @@ The full default run performs roughly 1,000 candidate illuminance simulations pl
 
 ## Visualization
 
-The supplied apartment drawing is included below. New optimization runs generate a point-sampled lux map with the 90–200 lux band identified in the caption and a best-score convergence plot.
+The model diagram below is drawn from `configs/default.json` and shows the seven initial luminaire positions in the 3.9 m × 4.5 m room used by Radiance. The full apartment drawing is included for context; its green-highlighted room is the modeled area. New optimization runs generate a point-sampled lux map and a best-score convergence plot.
 
-![Supplied apartment layout](results/apartment_layout.png)
+![Modeled room dimensions and initial seven-luminaire layout](results/modelled_room.svg)
 
-*Apartment layout supplied with the project files.*
+*Initial layout from the default configuration. Coordinates are in metres; the calculation task plane is at 0.75 m.*
+
+![Full supplied apartment plan, with the modeled room highlighted in green](results/apartment_layout.png)
+
+*Full apartment context supplied with the project files; the highlighted room corresponds to the rectangular Radiance model above.*
 
 ## Dependencies
 
