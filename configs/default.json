@@ -1,0 +1,27 @@
+{
+  "room": {
+    "length_m": 4.5,
+    "width_m": 3.9,
+    "height_m": 3.0,
+    "task_plane_height_m": 0.75,
+    "grid_step_m": 0.25,
+    "x_min_m": 0.0,
+    "x_max_m": 3.9,
+    "y_min_m": 0.0,
+    "y_max_m": 4.5
+  },
+  "objective": {
+    "lower_illuminance_lux": 90.0,
+    "upper_illuminance_lux": 200.0
+  },
+  "annealing": {
+    "initial_temperature": 100.0,
+    "final_temperature": 1.0,
+    "cooling_rate": 0.6,
+    "iterations_per_temperature": 20,
+    "max_shift_m": 0.4,
+    "independent_runs": 5
+  },
+  "initial_coordinates": [0.45, 0.7, 1.95, 1.68, 0.45, 2.7, 1.25, 4.0],
+  "random_seed": 2025
+}
