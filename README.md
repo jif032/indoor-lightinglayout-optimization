@@ -53,6 +53,32 @@ $$
 
 The best-so-far layout is retained independently of the current SA state.
 
+```mermaid
+flowchart TD
+    A["Load the room, fixed initial layout, and SA settings"] --> B["Evaluate initial layout; set current and best"]
+    B --> C["Set temperature to 100"]
+    C --> D["Propose one bounded luminaire move"]
+    D --> E["Run Radiance and calculate compliance"]
+    E --> F{"Candidate score at least current score?"}
+    F -->|Yes| G["Accept candidate as current"]
+    F -->|No| H{"Accept worse candidate by Metropolis rule?"}
+    H -->|Yes| G
+    H -->|No| I["Keep current layout"]
+    G --> J{"Candidate improves best score?"}
+    J -->|Yes| K["Save candidate as best"]
+    J -->|No| L["Keep best-so-far layout"]
+    I --> M{"20 proposals completed?"}
+    K --> M
+    L --> M
+    M -->|No| D
+    M -->|Yes| N["Cool temperature by factor 0.6"]
+    N --> O{"Temperature at least 1?"}
+    O -->|Yes| D
+    O -->|No| P{"More independent runs?"}
+    P -->|Yes| B
+    P -->|No| Q["Save best layout, summary, and plots"]
+```
+
 ## Objective Function
 
 `compliance_rate()` returns the inclusive fraction of samples with illuminance from 90 through 200 lux. This score is maximized. A point outside the band is treated as non-compliant whether it is under-lit or over-lit; no separate penalty weights are applied.
