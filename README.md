@@ -106,7 +106,9 @@ flowchart TD
 │   ├── optimization/     # compliance objective and SA
 │   └── visualization/    # illuminance and convergence plots
 ├── scripts/run_optimization.py
-├── results/              # supplied apartment layout
+├── results/
+│   ├── apartment_layout.png  # full supplied apartment plan
+│   └── modelled_room.svg     # room and default luminaire layout
 ├── tests/test_core.py
 └── archive/original/     # supplied Python source snapshots
 ```
